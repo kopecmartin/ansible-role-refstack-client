@@ -1,0 +1,76 @@
+---
+- name: Install git
+  become: yes
+  package:
+    name: 'git'
+
+
+- name: Create python-tempestconf venv with latest pip, setuptools and pbr
+  pip:
+      virtualenv: "{{ tempestconf_venv }}"
+      name: "{{ item }}"
+      state: latest
+  with_items:
+      - pip
+      - setuptools
+      - pbr
+
+- name: Clone refstack-client
+  git:
+    repo: 'https://github.com/openstack/refstack-client.git'
+    dest: "{{ refstack_client_source }}"
+
+- name: Clone python-tempestconf
+  git:
+    repo: 'https://github.com/openstack/python-tempestconf.git'
+    dest: "{{ tempestconf_source }}"
+
+- name: Install refstack-client
+  command: ./setup_env
+  args:
+    chdir: "{{ refstack_client_source }}"
+
+- name: Install python-tempestconf
+  pip:
+    name: "."
+    virtualenv: "{{ tempestconf_venv }}"
+    chdir: "{{ tempestconf_source }}"
+
+- name: Generate tempest configuration file
+  shell: |
+    set -ex
+    export PATH=$PATH:/usr/local/sbin:/usr/sbin
+    source {{ credentials_file }}
+    source {{ tempestconf_venv }}/bin/activate
+    printenv
+    discover-tempest-config \
+          --debug \
+          -v \
+          --create \
+          identity.uri $OS_AUTH_URL \
+          identity.admin_password $OS_PASSWORD \
+          validation.run_validation true \
+          compute.allow_tenant_isolation true \
+          compute-feature-enabled.resize true \
+          image.http_image {{ url_cirros_image }}
+  args:
+    chdir: "{{ tempestconf_source }}"
+    executable: /bin/bash
+
+- name: Validate setup
+  shell: |
+    set -ex
+    source .venv/bin/activate
+    refstack-client test -c {{ tempestconf_venv }}/etc/tempest.conf -v -- --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
+  args:
+    chdir: "{{ refstack_client_source }}"
+    executable: /bin/bash
+
+- name: Run tests
+  shell: |
+    set -ex
+    source .venv/bin/activate
+    # refstack-client test -c {{ tempestconf_venv }}/etc/tempest.conf -v
+  args:
+    chdir: "{{ refstack_client_source }}"
+    executable: /bin/bash
