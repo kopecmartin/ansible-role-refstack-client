@@ -4,7 +4,6 @@
   package:
     name: 'git'
 
-
 - name: Create python-tempestconf venv with latest pip, setuptools and pbr
   pip:
       virtualenv: "{{ tempestconf_venv }}"
@@ -40,7 +39,7 @@
   shell: |
     set -ex
     export PATH=$PATH:/usr/local/sbin:/usr/sbin
-    source {{ credentials_file }}
+    source {{ source_credentials }}
     source {{ tempestconf_venv }}/bin/activate
     printenv
     discover-tempest-config \
@@ -61,7 +60,7 @@
   shell: |
     set -ex
     source .venv/bin/activate
-    refstack-client test -c {{ tempestconf_venv }}/etc/tempest.conf -v -- --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
+    refstack-client test -c {{ tempestconf_source }}/etc/tempest.conf -v -- --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
   args:
     chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
@@ -70,7 +69,7 @@
   shell: |
     set -ex
     source .venv/bin/activate
-    # refstack-client test -c {{ tempestconf_venv }}/etc/tempest.conf -v
+    refstack-client test -c {{ tempestconf_source }}/etc/tempest.conf -v
   args:
     chdir: "{{ refstack_client_source }}"
     executable: /bin/bash

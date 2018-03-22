@@ -1,0 +1,7 @@
+---
+# This file and plugin.spec are required by Infrared project
+
+- hosts: undercloud
+  remote_user: stack
+  roles:
+    - refstack-client-ansible-role
