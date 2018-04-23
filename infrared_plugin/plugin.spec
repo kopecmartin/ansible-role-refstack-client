@@ -37,3 +37,8 @@ subparsers:
                     help: |
                       Destination of tempest configuration file to be used for running refstack tests.
                     default: None
+                test_list:
+                    type: Value
+                    help: |
+                      A path or an URL to a test list text file containing specific test cases.
+                    default: None

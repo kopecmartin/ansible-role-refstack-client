@@ -17,6 +17,7 @@ deployment is working by passing refstack tests.
 | tempestconf_source     | False    | ~/python-tempestconf-job                                            | String  | Destination where python-tempestconf will be cloned                             |
 | tempestconf_venv       | False    | ~/.python-tempestconf-job_venv                                      | String  | Destination of virtualenv where python-tempestconf will be installed            |
 | tempest_config_path    | False    | None                                                                | String  | Destination of tempest configuration file to be used for running refstack tests |
+| test_list              | False    | None                                                                | String  | A path or an URL to a test list text file containing specific test cases.       |
 
 ## Example
 Example of a playbook which includes the role:

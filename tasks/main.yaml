@@ -77,11 +77,15 @@
     chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
 
+- name: Generate test script
+  template:
+    src: generate-test-script.sh.j2
+    dest: "{{ refstack_client_source }}/generate-test-script.sh"
+    mode: 0744
+
 - name: Run tests
   shell: |
-    set -ex
-    source .venv/bin/activate
-    refstack-client test -c {{ path_to_tempest_config }} -v
+    ./generate-test-script.sh
   args:
     chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
