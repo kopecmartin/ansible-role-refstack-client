@@ -32,3 +32,8 @@ subparsers:
                     help: |
                       Destination of virtualenv where python-tempestconf will be installed.
                     default: ~/.python-tempestconf-job_venv
+                tempest_config_path:
+                    type: Value
+                    help: |
+                      Destination of tempest configuration file to be used for running refstack tests.
+                    default: None

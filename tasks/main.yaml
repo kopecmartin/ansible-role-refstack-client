@@ -34,6 +34,7 @@
     name: "."
     virtualenv: "{{ tempestconf_venv }}"
     chdir: "{{ tempestconf_source }}"
+  when: tempest_config_path is not defined
 
 - name: Generate tempest configuration file
   shell: |
@@ -55,12 +56,23 @@
   args:
     chdir: "{{ tempestconf_source }}"
     executable: /bin/bash
+  when: tempest_config_path is not defined
+
+- name: Set path to newly generated tempest.conf
+  set_fact:
+    path_to_tempest_config: {{ tempestconf_source }}/etc/tempest.conf
+  when: tempest_config_path is not defined
+
+- name: Set path to provided tempest.conf
+  set_fact:
+    path_to_tempest_config: {{ path_to_tempest_config }}
+  when: path_to_tempest_config is defined
 
 - name: Validate setup
   shell: |
     set -ex
     source .venv/bin/activate
-    refstack-client test -c {{ tempestconf_source }}/etc/tempest.conf -v -- --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
+    refstack-client test -c {{ path_to_tempest_config }} -v -- --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
   args:
     chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
@@ -69,7 +81,8 @@
   shell: |
     set -ex
     source .venv/bin/activate
-    refstack-client test -c {{ tempestconf_source }}/etc/tempest.conf -v
+    refstack-client test -c {{ path_to_tempest_config }} -v
   args:
     chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
+
