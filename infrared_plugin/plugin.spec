@@ -1,7 +1,7 @@
 ---
 plugin_type: test
 subparsers:
-    refstack-client-ansible-role
+    refstack-client-ansible-role:
         description: OpenStack interoperability tests
         include_groups: ["Ansible options", "Inventory", "Common options", "Answers file"]
         groups:
