@@ -3,6 +3,7 @@
 
 - hosts: undercloud
   remote_user: stack
+  become: yes
   roles:
     - refstack-client-ansible-role
 
