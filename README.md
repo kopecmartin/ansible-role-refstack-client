@@ -27,8 +27,8 @@ Example of a playbook which includes the role:
   vars:
     url_cirros_image: "http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img"
     source_credentials: ~/overcloudrc
-  tasks:
-  - import_tasks: tasks/main.yaml
+  roles:
+    - refstack-client-infrared-plugin
 ```
 
 ## Usage with Infrared
