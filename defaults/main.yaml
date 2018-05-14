@@ -1,4 +1,4 @@
 url_cirros_image: "http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img"
-refstack_client_source: ~/refstack-client
-tempestconf_source: ~/python-tempestconf-job
-tempestconf_venv: ~/.python-tempestconf-job_venv
+refstack_client_source: "~/refstack-client"
+tempestconf_source: "~/python-tempestconf-job"
+tempestconf_venv: "~/.python-tempestconf-job_venv"
