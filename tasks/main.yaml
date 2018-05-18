@@ -1,8 +1,11 @@
 ---
-- name: Install git
+- name: Install git and pip
   become: yes
   package:
-    name: 'git'
+    name: "{{ item }}"
+  with_items:
+    - git
+    - pip
 
 - name: Create python-tempestconf venv with latest pip, setuptools and pbr
   pip:
