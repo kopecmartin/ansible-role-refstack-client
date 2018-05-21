@@ -1,11 +1,6 @@
 ---
-- name: Install git and pip
-  become: yes
-  package:
-    name: "{{ item }}"
-  with_items:
-    - git
-    - pip
+- name: Install required packages
+  include: install-packages.yaml
 
 - name: Create python-tempestconf venv with latest pip, setuptools and pbr
   pip:
@@ -69,7 +64,7 @@
 - name: Set path to provided tempest.conf
   set_fact:
     path_to_tempest_config: "{{ tempest_config_path }}"
-  when: path_to_tempest_config is defined
+  when: tempest_config_path is defined
 
 - name: Validate setup
   shell: |
