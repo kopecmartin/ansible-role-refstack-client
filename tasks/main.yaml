@@ -80,13 +80,13 @@
 
 - name: Generate test script
   template:
-    src: generate-test-script.sh.j2
-    dest: "{{ source.refstack_client_source }}/generate-test-script.sh"
+    src: test-script.sh.j2
+    dest: "{{ source.refstack_client_source }}/test-script.sh"
     mode: 0744
 
 - name: Run tests
   shell: |
-    ./generate-test-script.sh
+    ./test-script.sh
   args:
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
