@@ -39,7 +39,7 @@
     set -ex
     export PATH=$PATH:/usr/local/sbin:/usr/sbin
     source {{ source_credentials }}
-    source {{ tempestconf_venv }}/bin/activate
+    source {{ virtualenvs.tempestconf_venv }}/bin/activate
     printenv
     discover-tempest-config \
           --debug \
