@@ -90,6 +90,7 @@
   args:
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
+  ignore_errors: True
 
 - name: Find the test result json file
   shell: |
