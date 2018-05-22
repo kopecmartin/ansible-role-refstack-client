@@ -27,7 +27,7 @@ To run the role from the repository:
 ```
 $ git clone https://github.com/kopecmartin/refstack-client-ansible-role.git
 $ cd refstack-client-ansible-role
-$ ln -s ./ roles/refstack-client-ansible-role
+$ mkdir roles && ln -s $(pwd) roles/refstack-client-ansible-role
 ```
 Then create a `playbook.yaml`:
 ```
