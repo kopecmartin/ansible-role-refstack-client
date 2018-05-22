@@ -70,7 +70,10 @@
   shell: |
     set -ex
     source .venv/bin/activate
-    refstack-client test -c {{ path_to_tempest_config }} -v -- --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
+    refstack-client test -c {{ path_to_tempest_config }} \
+      -v \
+      -- \
+      --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
   args:
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
@@ -88,3 +91,32 @@
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
 
+- name: Find the test result json file
+  shell: |
+    set -ex
+    ls | grep "\.json" | tail -1
+  register: ls_out
+  args:
+    chdir: "{{ source.refstack_client_source }}/.tempest/.testrepository"
+
+- name: Upload results anonymously
+  shell: |
+    set -ex
+    source .venv/bin/activate
+    refstack-client upload ".tempest/.testrepository/{{ ls_out.stdout }}"
+  args:
+    chdir: "{{ source.refstack_client_source }}"
+    executable: /bin/bash
+  when: upload_results and private_key_path is not defined
+
+- name: Upload results with signature
+  shell: |
+    set -ex
+    source .venv/bin/activate
+    refstack-client upload ".tempest/.testrepository/{{ ls_out.stdout }}" \
+      --url {{ server }} \
+      -i {{ private_key_path }}
+  args:
+    chdir: "{{ source.refstack_client_source }}"
+    executable: /bin/bash
+  when: upload_results and private_key_path is defined
