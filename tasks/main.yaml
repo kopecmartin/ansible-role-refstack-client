@@ -4,7 +4,7 @@
 
 - name: Create python-tempestconf venv with latest pip, setuptools and pbr
   pip:
-      virtualenv: "{{ tempestconf_venv }}"
+      virtualenv: "{{ virtualenvs.tempestconf_venv }}"
       name: "{{ item }}"
       state: latest
   with_items:
@@ -15,23 +15,23 @@
 - name: Clone refstack-client
   git:
     repo: 'https://github.com/openstack/refstack-client.git'
-    dest: "{{ refstack_client_source }}"
+    dest: "{{ source.refstack_client_source }}"
 
 - name: Clone python-tempestconf
   git:
     repo: 'https://github.com/openstack/python-tempestconf.git'
-    dest: "{{ tempestconf_source }}"
+    dest: "{{ source.tempestconf_source }}"
 
 - name: Install refstack-client
   command: ./setup_env
   args:
-    chdir: "{{ refstack_client_source }}"
+    chdir: "{{ source.refstack_client_source }}"
 
 - name: Install python-tempestconf
   pip:
     name: "."
-    virtualenv: "{{ tempestconf_venv }}"
-    chdir: "{{ tempestconf_source }}"
+    virtualenv: "{{ virtualenvs.tempestconf_venv }}"
+    chdir: "{{ source.tempestconf_source }}"
   when: tempest_config_path is not defined
 
 - name: Generate tempest configuration file
@@ -52,13 +52,13 @@
           compute-feature-enabled.resize true \
           image.http_image {{ url_cirros_image }}
   args:
-    chdir: "{{ tempestconf_source }}"
+    chdir: "{{ source.tempestconf_source }}"
     executable: /bin/bash
   when: tempest_config_path is not defined
 
 - name: Set path to newly generated tempest.conf
   set_fact:
-    path_to_tempest_config: "{{ tempestconf_source }}/etc/tempest.conf"
+    path_to_tempest_config: "{{ source.tempestconf_source }}/etc/tempest.conf"
   when: tempest_config_path is not defined
 
 - name: Set path to provided tempest.conf
@@ -72,19 +72,19 @@
     source .venv/bin/activate
     refstack-client test -c {{ path_to_tempest_config }} -v -- --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
   args:
-    chdir: "{{ refstack_client_source }}"
+    chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
 
 - name: Generate test script
   template:
     src: generate-test-script.sh.j2
-    dest: "{{ refstack_client_source }}/generate-test-script.sh"
+    dest: "{{ source.refstack_client_source }}/generate-test-script.sh"
     mode: 0744
 
 - name: Run tests
   shell: |
     ./generate-test-script.sh
   args:
-    chdir: "{{ refstack_client_source }}"
+    chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
 
