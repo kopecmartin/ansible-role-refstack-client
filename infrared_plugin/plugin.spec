@@ -17,11 +17,21 @@ subparsers:
                     help: |
                       File or command to be sourced: keystonerc_admin/openrc admin admin.
                     default: None
+                private_key_path:
+                    type: Value
+                    help: |
+                      If defined, results will be uploaded to the corresponding account.
+                    default: None
                 refstack_client_source:
                     type: Value
                     help: |
                       Destination where refstack-client will be cloned.
                     default: ~/refstack-client
+                server:
+                    type: Value
+                    help: |
+                      Server url where results will be uploaded.
+                    default: https://refstack.openstack.org/api
                 tempestconf_source:
                     type: Value
                     help: |
@@ -42,3 +52,8 @@ subparsers:
                     help: |
                       A path or an URL to a test list text file containing specific test cases.
                     default: None
+                upload_results:
+                    type: Bool
+                    help: |
+                      Whether results should be uploaded to a server or not.
+                    default: True

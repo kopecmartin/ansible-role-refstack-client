@@ -2,7 +2,7 @@
 
 ## About
 It's an ansible playbook for running [refstack-client](https://github.com/openstack/refstack-client).
-It can be usefull in automation where this role can be for example included in other playbooks.
+It can be useful in automation where this role can be for example included in other playbooks.
 The role is importable to [Infrared](https://github.com/redhat-openstack/infrared.git) as an infrared
 plugin, so right after Infrared deploys the environment, this role can be executed to ensure the
 deployment is working by passing refstack tests.
@@ -11,16 +11,16 @@ deployment is working by passing refstack tests.
 
 | Variable name          | Required | Default                                                             | Type    | Description                                                                     |
 |------------------------|----------|---------------------------------------------------------------------|---------|---------------------------------------------------------------------------------|
-| url_cirros_image       | False    | http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img | String  | Path or link to cirros image                                                    |
-| source_credentials     | True     | None                                                                | String  | File or command to be sourced: keystonerc_admin/openrc admin admin              |
-| private_key_path       | False    | None                                                                | String  | If defined, results will be uploaded to the corresponding account                                  |
-| refstack_client_source | False    | ~/.refstack-client                                                  | String  | Destination where refstack-client will be cloned                                |
+| url_cirros_image       | False    | http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img | String  | Path or link to cirros image.                                                   |
+| source_credentials     | True     | None                                                                | String  | File or command to be sourced: keystonerc_admin/openrc admin admin.             |
+| private_key_path       | False    | None                                                                | String  | If defined, results will be uploaded to the corresponding account.              |
+| refstack_client_source | False    | ~/.refstack-client                                                  | String  | Destination where refstack-client will be cloned.                               |
 | server                 | False    | https://refstack.openstack.org/api                                  | String  | Server url where results will be uploaded.                                      |
-| tempestconf_source     | False    | ~/.python-tempestconf                                               | String  | Destination where python-tempestconf will be cloned                             |
-| tempestconf_venv       | False    | ~/.python-tempestconf/job_venv                                      | String  | Destination of virtualenv where python-tempestconf will be installed            |
-| tempest_config_path    | False    | None                                                                | String  | Destination of tempest configuration file to be used for running refstack tests |
+| tempestconf_source     | False    | ~/.python-tempestconf                                               | String  | Destination where python-tempestconf will be cloned.                            |
+| tempestconf_venv       | False    | ~/.python-tempestconf/job_venv                                      | String  | Destination of virtualenv where python-tempestconf will be installed.           |
+| tempest_config_path    | False    | None                                                                | String  | Destination of tempest configuration file to be used for running refstack tests.|
 | test_list              | False    | None                                                                | String  | A path or an URL to a test list text file containing specific test cases.       |
-| upload_results         | False    | True                                                                | Bool    | Wheter results should be uploaded to a server or not                            |
+| upload_results         | False    | True                                                                | Bool    | Whether results should be uploaded to a server or not.                          |
 
 ## Example
 To run the role from the repository:

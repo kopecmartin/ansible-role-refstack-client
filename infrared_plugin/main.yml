@@ -18,10 +18,20 @@
         source_credentials: "{{ test.source_credentials }}"
       when: test.source_credentials is defined
 
+    - name: Set private_key_path
+      set_fact:
+        private_key_path: "{{ test.private_key_path }}"
+      when: test.private_key_path is defined
+
     - name: Set refstack_client_source
       set_fact:
         refstack_client_source: "{{ test.refstack_client_source }}"
       when: test.refstack_client_source
+
+    - name: Set server
+      set_fact:
+        server: "{{ test.server }}"
+      when: test.server
 
     - name: Set tempestconf_source
       set_fact:
@@ -33,11 +43,6 @@
         tempestconf_venv: "{{ test.tempestconf_venv }}"
       when: test.tempestconf_venv
 
-    - name: Set url_cirros_image
-      set_fact:
-        url_cirros_image: "{{ test.url_cirros_image }}"
-      when: test.url_cirros_image
-
     - name: Set tempest_config_path
       set_fact:
         tempest_config_path: "{{ test.tempest_config_path }}"
@@ -48,3 +53,7 @@
         test_list: "{{ test.test_list }}"
       when: test.test_list
 
+    - name: Set upload_results
+      set_fact:
+        upload_results: "{{ test.upload_results }}"
+      when: test.upload_results
