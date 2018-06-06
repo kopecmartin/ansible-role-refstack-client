@@ -5,6 +5,7 @@
     name: "{{ item }}"
   with_items:
     - git
+    - python-virtualenv
 
 - name: Check if pip is already installed
   command: "pip --version"
