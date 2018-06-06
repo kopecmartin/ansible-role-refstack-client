@@ -8,6 +8,16 @@
     - refstack-client-ansible-role
 
   pre_tasks:
+    - name: Set aditional_tempestconf_params
+      set_fact:
+        aditional_tempestconf_params: "{{ test.aditional_tempestconf_params }}"
+      when: test.aditional_tempestconf_params is defined
+
+    - name: Set deployer_input
+      set_fact:
+        deployer_input: "{{ test.deployer_input }}"
+      when: test.deployer_input is defined
+
     - name: Set url_cirros_image
       set_fact:
         url_cirros_image: "{{ test.url_cirros_image }}"

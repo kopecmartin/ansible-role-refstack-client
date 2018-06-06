@@ -34,23 +34,16 @@
     chdir: "{{ source.tempestconf_source }}"
   when: tempest_config_path is not defined
 
+- name: Generate tempest configuration script
+  template:
+      src: generate-tempestconf.sh.j2
+      dest: "{{ source.tempestconf_source }}/generate-tempestconf.sh"
+      mode: 0744
+  when: tempest_config_path is not defined
+
 - name: Generate tempest configuration file
   shell: |
-    set -ex
-    export PATH=$PATH:/usr/local/sbin:/usr/sbin
-    source {{ source_credentials }}
-    source {{ virtualenvs.tempestconf_venv }}/bin/activate
-    printenv
-    discover-tempest-config \
-          --debug \
-          -v \
-          --create \
-          identity.uri $OS_AUTH_URL \
-          identity.admin_password $OS_PASSWORD \
-          validation.run_validation true \
-          compute.allow_tenant_isolation true \
-          compute-feature-enabled.resize true \
-          image.http_image {{ url_cirros_image }}
+      ./generate-tempestconf.sh
   args:
     chdir: "{{ source.tempestconf_source }}"
     executable: /bin/bash

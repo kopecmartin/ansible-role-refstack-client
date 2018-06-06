@@ -7,6 +7,16 @@ subparsers:
         groups:
             - title: OpenStack Interoperability Tests
               options:
+                aditional_tempestconf_params:
+                    type: Value
+                    help: |
+                      Additional parameters to be passed to discover-tempest-config tool.
+                    default: None
+                deployer_input:
+                    type: Value
+                    help: |
+                      Path to a deployer-input file.
+                    default: None
                 url_cirros_image:
                     type: Value
                     help: |
