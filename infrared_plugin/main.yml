@@ -11,12 +11,12 @@
     - name: Set aditional_tempestconf_params
       set_fact:
         aditional_tempestconf_params: "{{ test.aditional_tempestconf_params }}"
-      when: test.aditional_tempestconf_params is defined
+      when: test.aditional_tempestconf_params
 
     - name: Set deployer_input
       set_fact:
         deployer_input: "{{ test.deployer_input }}"
-      when: test.deployer_input is defined
+      when: test.deployer_input
 
     - name: Set url_cirros_image
       set_fact:
@@ -26,12 +26,12 @@
     - name: Set source_credentials
       set_fact:
         source_credentials: "{{ test.source_credentials }}"
-      when: test.source_credentials is defined
+      when: test.source_credentials
 
     - name: Set private_key_path
       set_fact:
         private_key_path: "{{ test.private_key_path }}"
-      when: test.private_key_path is defined
+      when: test.private_key_path
 
     - name: Set refstack_client_source
       set_fact:
