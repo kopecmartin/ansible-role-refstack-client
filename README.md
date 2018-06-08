@@ -16,6 +16,7 @@ deployment is working by passing refstack tests.
 | url_cirros_image             | False    | http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img | String  | Path or link to cirros image.                                                   |
 | source_credentials           | True     | None                                                                | String  | File or command to be sourced: keystonerc_admin/openrc admin admin.             |
 | private_key_path             | False    | None                                                                | String  | If defined, results will be uploaded to the corresponding account.              |
+| private_key_path_src         | False    | None                                                                | String  | If defined, the is copiked to the targeted machine to private_key_path location.|
 | refstack_client_source       | False    | ~/.refstack-client                                                  | String  | Destination where refstack-client will be cloned.                               |
 | server                       | False    | https://refstack.openstack.org/api                                  | String  | Server url where results will be uploaded.                                      |
 | tempestconf_source           | False    | ~/.python-tempestconf                                               | String  | Destination where python-tempestconf will be cloned.                            |
