@@ -103,6 +103,12 @@
     executable: /bin/bash
   when: upload_results and private_key_path is not defined
 
+- name: Copy private key
+  copy:
+    src: "{{ private_key_path_src }}"
+    dest: "{{ private_key_path }}"
+  when: upload_results and private_key_path is defined and private_key_path_src is defined
+
 - name: Upload results with signature
   shell: |
     set -ex

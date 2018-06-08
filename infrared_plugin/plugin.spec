@@ -32,6 +32,11 @@ subparsers:
                     help: |
                       If defined, results will be uploaded to the corresponding account.
                     default: ''
+                private_key_path_src:
+                    type: Value
+                    help: |
+                      If defined, the key is copied to the targeted machine to private_key_path location.
+                    default: ''
                 refstack_client_source:
                     type: Value
                     help: |

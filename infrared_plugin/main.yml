@@ -33,6 +33,11 @@
         private_key_path: "{{ test.private_key_path }}"
       when: test.private_key_path
 
+    - name: Set private_key_path_src
+      set_fact:
+        private_key_path_src: "{{ test.private_key_path_src }}"
+      when: test.private_key_path_src
+
     - name: Set refstack_client_source
       set_fact:
         refstack_client_source: "{{ test.refstack_client_source }}"
