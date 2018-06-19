@@ -24,6 +24,7 @@ deployment is working by passing refstack tests.
 | tempest_config_path          | False    | None                                                                | String  | Destination of tempest configuration file to be used for running refstack tests.|
 | test_list                    | False    | None                                                                | String  | A path or an URL to a test list text file containing specific test cases.       |
 | upload_results               | False    | True                                                                | Bool    | Whether results should be uploaded to a server or not.                          |
+| download_artifacts           | False    | True                                                                | Bool    | Whether artifacts should be downloaded to the host or not.                      |
 
 ## Example
 To run the role from the repository:

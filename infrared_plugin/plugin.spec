@@ -72,3 +72,8 @@ subparsers:
                     help: |
                       Whether results should be uploaded to a server or not.
                     default: True
+                download_artifacts:
+                    type: Bool
+                    help: |
+                      Whether artifacts should be downloaded to the host machine or not.
+                    default: True

@@ -72,3 +72,8 @@
       set_fact:
         upload_results: "{{ test.upload_results }}"
       when: test.upload_results
+
+    - name: Set download_artifacts
+      set_fact:
+        download_artifacts: "{{ test.download_artifacts }}"
+      when: test.download_artifacts

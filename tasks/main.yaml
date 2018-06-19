@@ -120,3 +120,21 @@
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
   when: upload_results and private_key_path is defined
+
+- block:
+  - name: Download results file
+    fetch:
+      src: ".tempest/.testrepository/{{ ls_out.stdout }}"
+      dest: "{{ dest_dir }}/test_results.json"
+      flat: yes
+    args:
+      chdir: "{{ source.refstack_client_source }}"
+
+  - name: Download tempest.conf file
+    fetch:
+      src: "{{ path_to_tempest_config }}"
+      dest: "{{ dest_dir }}/tempest.conf"
+      flat: yes
+    args:
+      chdir: "{{ source.refstack_client_source }}"
+  when: download_artifacts
