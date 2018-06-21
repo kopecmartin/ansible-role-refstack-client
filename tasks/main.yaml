@@ -124,11 +124,9 @@
 - block:
   - name: Download results file
     fetch:
-      src: ".tempest/.testrepository/{{ ls_out.stdout }}"
+      src: "{{ source.refstack_client_source }}.tempest/.testrepository/{{ ls_out.stdout }}"
       dest: "{{ dest_dir }}/test_results.json"
       flat: yes
-    args:
-      chdir: "{{ source.refstack_client_source }}"
 
   - name: Download tempest.conf file
     fetch:
