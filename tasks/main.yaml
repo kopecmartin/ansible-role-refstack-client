@@ -122,10 +122,16 @@
   when: upload_results and private_key_path is defined
 
 - block:
-  - name: Download results file
+  - name: Download results file in .json
     fetch:
       src: "{{ source.refstack_client_source }}/.tempest/.testrepository/{{ ls_out.stdout }}"
       dest: "{{ dest_dir }}/test_results.json"
+      flat: yes
+
+  - name: Download results file in subunit
+    fetch:
+      src: "{{ source.refstack_client_source }}/.tempest/.testrepository/{{ ls_out.stdout | splitext | first }}"
+      dest: "{{ dest_dir }}/test_results_subunit"
       flat: yes
 
   - name: Download tempest.conf file
