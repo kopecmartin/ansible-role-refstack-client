@@ -10,3 +10,5 @@ virtualenvs:
 
 # Loal directory where the files will be stored
 dest_dir: "{{ lookup('env', 'PWD') }}"
+# the latest guideline by default
+guideline: "2018.02"

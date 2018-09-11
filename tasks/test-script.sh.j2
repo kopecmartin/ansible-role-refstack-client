@@ -4,9 +4,10 @@ set -ex
 source .venv/bin/activate
 
 refstack-client test \
--c \
-{{ path_to_tempest_config }} \
+-c {{ path_to_tempest_config }} \
 {% if test_list is defined %}
 --test-list {{ test_list }} \
+{% else %}
+--test-list https://refstack.openstack.org/api/v1/guidelines/{{ guideline }}/tests?target=platform&type=required&alias=true&flag=false \
 {% endif %}
 -v
