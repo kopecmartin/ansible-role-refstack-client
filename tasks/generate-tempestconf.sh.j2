@@ -11,6 +11,8 @@ discover-tempest-config \
 {% if deployer_input is defined %}
 --deployer-input {{ deployer_input }} \
 {% endif %}
+identity.tenant_name demo \
+auth.tempest_roles member \
 validation.run_validation true \
 compute.allow_tenant_isolation true \
 compute-feature-enabled.resize true \
