@@ -11,8 +11,6 @@ discover-tempest-config \
 {% if deployer_input is defined %}
 --deployer-input {{ deployer_input }} \
 {% endif %}
-identity.uri $OS_AUTH_URL \
-identity.admin_password $OS_PASSWORD \
 validation.run_validation true \
 compute.allow_tenant_isolation true \
 compute-feature-enabled.resize true \
