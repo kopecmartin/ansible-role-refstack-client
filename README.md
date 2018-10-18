@@ -10,8 +10,9 @@ deployment is working by passing refstack tests.
 ## Required Role Variables
 | Variable name                | Required | Default                                                             | Type   | Description                                                                      |
 |------------------------------|----------|---------------------------------------------------------------------|--------|---------------------------------------------------------------------------------------------------------|
+| private_key_path             | True     | None                                                                | String | Results are uploaded to the corresponding account.                                                      |
+| source_admin_credentials     | only if accounts_path not defined | None                                            | String | File or command to be sourced for admin credentials.                                                    |
 | source_credentials           | True     | None                                                                | String | File or command to be sourced: keystonerc_admin/openrc admin admin.                                     |
-| source_admin_credentials     | if accounts_path not defined | None                                            | String | File or command to be sourced for admin credentials.                                                    |
 
 ## Optional Role Variables
 
@@ -23,7 +24,6 @@ deployment is working by passing refstack tests.
 | dest_dir                     | False    | pwd                                                                 | String | Local directory where the files will be stored.                                                         |
 | download_artifacts           | False    | True                                                                | Bool   | Whether artifacts should be downloaded to the host or not.                                              |
 | guideline                    | False    | 2018.02                                                             | String | Specific guideline                                                                                      |
-| private_key_path             | False    | None                                                                | String | If defined, results will be uploaded to the corresponding account.                                      |
 | private_key_path_src         | False    | None                                                                | String | If defined, the key defined by the param is copied to the targeted machine to private_key_path location.|
 | refstack_client_source       | False    | ~/.refstack-client                                                  | String | Destination where refstack-client will be cloned.                                                       |
 | server                       | False    | https://refstack.openstack.org/api                                  | String | Server url where results will be uploaded.                                                              |
@@ -46,6 +46,7 @@ Then create a `playbook.yaml`:
   vars:
     source_credentials: ~/overcloudrc
     source_admin_credentials: ~/overcloudrc_admin
+    private_key_path: ~/.ssh/id_rsa
   roles:
     - refstack-client-ansible-role
 ```

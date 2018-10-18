@@ -95,16 +95,6 @@
   args:
     chdir: "{{ source.refstack_client_source }}/.tempest/.stestr"
 
-- name: Upload results anonymously
-  shell: |
-    set -ex
-    source .venv/bin/activate
-    yes | refstack-client upload ".tempest/.stestr/{{ ls_out.stdout }}"
-  args:
-    chdir: "{{ source.refstack_client_source }}"
-    executable: /bin/bash
-  when: upload_results and private_key_path is not defined
-
 - name: Copy private key
   copy:
     src: "{{ private_key_path_src }}"
