@@ -7,26 +7,30 @@ The role is importable to [Infrared](https://github.com/redhat-openstack/infrare
 plugin, so right after Infrared deploys an environment, this role can be executed to ensure the
 deployment is working by passing refstack tests.
 
-## Role Variables
+## Required Role Variables
+| Variable name                | Required | Default                                                             | Type   | Description                                                                      |
+|------------------------------|----------|---------------------------------------------------------------------|--------|---------------------------------------------------------------------------------------------------------|
+| source_credentials           | True     | None                                                                | String | File or command to be sourced: keystonerc_admin/openrc admin admin.                                     |
+| source_admin_credentials     | if accounts_path not defined | None                                            | String | File or command to be sourced for admin credentials.                                                    |
+
+## Optional Role Variables
 
 | Variable name                | Required | Default                                                             | Type   | Description                                                                      |
 |------------------------------|----------|---------------------------------------------------------------------|--------|---------------------------------------------------------------------------------------------------------|
+| accounts_path                | False    | None                                                                | String | Path to a tempest accounts file.                                                                        |
 | aditional_tempestconf_params | False    | None                                                                | String | Aditional arguments to passed to discover-tempest-config tool.                                          |
 | deployer_input               | False    | None                                                                | String | Pat to a deployer input file.                                                                           |
-| url_cirros_image             | False    | http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img | String | Path or link to cirros image.                                                                           |
-| source_credentials           | True     | None                                                                | String | File or command to be sourced: keystonerc_admin/openrc admin admin.                                     |
-| source_admin_credentials     | if accounts_path not defined | None                                            | String | File or command to be sourced for admin credentials.                                                    |
+| dest_dir                     | False    | pwd                                                                 | String | Local directory where the files will be stored.                                                         |
+| download_artifacts           | False    | True                                                                | Bool   | Whether artifacts should be downloaded to the host or not.                                              |
+| guideline                    | False    | 2018.02                                                             | String | Specific guideline                                                                                      |
 | private_key_path             | False    | None                                                                | String | If defined, results will be uploaded to the corresponding account.                                      |
 | private_key_path_src         | False    | None                                                                | String | If defined, the key defined by the param is copied to the targeted machine to private_key_path location.|
 | refstack_client_source       | False    | ~/.refstack-client                                                  | String | Destination where refstack-client will be cloned.                                                       |
 | server                       | False    | https://refstack.openstack.org/api                                  | String | Server url where results will be uploaded.                                                              |
 | tempest_config_path          | False    | None                                                                | String | Destination of tempest configuration file to be used for running refstack tests.                        |
-| accounts_path                | False    | None                                                                | String | Path to a tempest accounts file.                                                                        |
 | test_list                    | False    | None                                                                | String | A path or an URL to a test list text file containing specific test cases.                               |
 | upload_results               | False    | True                                                                | Bool   | Whether results should be uploaded to a server or not.                                                  |
-| download_artifacts           | False    | True                                                                | Bool   | Whether artifacts should be downloaded to the host or not.                                              |
-| guideline                    | False    | 2018.02                                                             | String | Specific guideline                                                                                      |
-| dest_dir                     | False    | pwd                                                                 | String | Local directory where the files will be stored.                                                         |
+| url_cirros_image             | False    | http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img | String | Path or link to cirros image.                                                                           |
 
 ## Example
 To run the role from the repository:
@@ -41,6 +45,7 @@ Then create a `playbook.yaml`:
 - hosts: localhost
   vars:
     source_credentials: ~/overcloudrc
+    source_admin_credentials: ~/overcloudrc_admin
   roles:
     - refstack-client-ansible-role
 ```
