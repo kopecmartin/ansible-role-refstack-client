@@ -1,18 +1,17 @@
 # Script to generate tempest.conf
 set -ex
 export PATH=$PATH:/usr/local/sbin:/usr/sbin
+source {{ source.refstack_client_source }}/.venv/bin/activate
 source {{ source_credentials }}
-source {{ virtualenvs.tempestconf_venv }}/bin/activate
 printenv
 discover-tempest-config \
 --debug \
 -v \
---create \
+--non-admin \
+--test-accounts ./etc/accounts.yaml \
 {% if deployer_input is defined %}
 --deployer-input {{ deployer_input }} \
 {% endif %}
-identity.tenant_name demo \
-auth.tempest_roles member \
 validation.run_validation true \
 compute.allow_tenant_isolation true \
 compute-feature-enabled.resize true \

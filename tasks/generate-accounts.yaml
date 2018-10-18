@@ -1,0 +1,54 @@
+---
+- name: Generate tempest.conf as admin
+  shell: |
+    set -ex
+    source .venv/bin/activate
+    source {{ source_admin_credentials }}
+    discover-tempest-config \
+       --debug \
+       -v \
+       --create \
+       --out ./etc/tempest.conf
+  args:
+    executable: /bin/bash
+    chdir: "{{ source.refstack_client_source }}"
+  when: aditional_tempestconf_params is not defined
+
+- name: Generate tempest.conf as admin additional params
+  shell: |
+    set -ex
+    source .venv/bin/activate
+    source {{ source_admin_credentials }}
+    discover-tempest-config \
+       --debug \
+       -v \
+       --create \
+       --out ./etc/tempest.conf \
+       {{ aditional_tempestconf_params }} \
+       image.http_image {{ url_cirros_image }}
+  args:
+    executable: /bin/bash
+    chdir: "{{ source.refstack_client_source }}"
+  when: aditional_tempestconf_params is defined
+
+- name: Generate tempest accounts.yaml file
+  shell: |
+    set -ex
+    export PATH=$PATH:/usr/local/sbin:/usr/sbin
+    source .venv/bin/activate
+    source {{ source_admin_credentials }}
+    printenv
+    tempest account-generator \
+      --config-file ./etc/tempest_admin.conf \
+      --concurrency 3 \
+      ./etc/accounts.yaml
+  args:
+    executable: /bin/bash
+    chdir: "{{ source.refstack_client_source }}"
+
+- name: Cat generated accounts.yaml file
+  shell: |
+    cat ./etc/accounts.yaml
+  args:
+    executable: /bin/bash
+    chdir: "{{ source.refstack_client_source }}"

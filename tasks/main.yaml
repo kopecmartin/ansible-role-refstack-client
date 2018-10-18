@@ -2,56 +2,38 @@
 - name: Install required packages
   include: install-packages.yaml
 
-- name: Create python-tempestconf venv with latest pip, setuptools and pbr
-  pip:
-      virtualenv: "{{ virtualenvs.tempestconf_venv }}"
-      name: "{{ item }}"
-      state: latest
-  with_items:
-      - pip
-      - setuptools
-      - pbr
-
 - name: Clone refstack-client
   git:
     repo: 'https://github.com/openstack/refstack-client.git'
     dest: "{{ source.refstack_client_source }}"
-
-- name: Clone python-tempestconf
-  git:
-    repo: 'https://github.com/openstack/python-tempestconf.git'
-    dest: "{{ source.tempestconf_source }}"
 
 - name: Install refstack-client
   command: ./setup_env
   args:
     chdir: "{{ source.refstack_client_source }}"
 
-- name: Install python-tempestconf
-  pip:
-    name: "."
-    virtualenv: "{{ virtualenvs.tempestconf_venv }}"
-    chdir: "{{ source.tempestconf_source }}"
-  when: tempest_config_path is not defined
+- name: Generate accounts.yaml file
+  include: generate-accounts.yaml
+  when: accounts_path is not defined
 
 - name: Generate tempest configuration script
   template:
       src: generate-tempestconf.sh.j2
-      dest: "{{ source.tempestconf_source }}/generate-tempestconf.sh"
+      dest: "{{ source.refstack_client_source }}/generate-tempestconf.sh"
       mode: 0744
   when: tempest_config_path is not defined
 
 - name: Generate tempest configuration file
   shell: |
-      ./generate-tempestconf.sh
+    ./generate-tempestconf.sh
   args:
-    chdir: "{{ source.tempestconf_source }}"
+    chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
   when: tempest_config_path is not defined
 
 - name: Set path to newly generated tempest.conf
   set_fact:
-    path_to_tempest_config: "{{ source.tempestconf_source }}/etc/tempest.conf"
+    path_to_tempest_config: "{{ source.refstack_client_source }}/etc/tempest.conf"
   when: tempest_config_path is not defined
 
 - name: Set path to provided tempest.conf
@@ -71,19 +53,39 @@
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
 
-- name: Generate test script
-  template:
-    src: test-script.sh.j2
-    dest: "{{ source.refstack_client_source }}/test-script.sh"
-    mode: 0744
-
-- name: Run tests
+- name: Run tests with defined test list
   shell: |
-    ./test-script.sh
+    set -ex
+    export PATH=$PATH:/usr/local/sbin:/usr/sbin
+    source .venv/bin/activate
+    printenv
+    refstack-client test \
+      -c {{ path_to_tempest_config }} \
+      -v \
+      --test-list {{ test_list }}
   args:
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
-  ignore_errors: True
+  register: refstack_result
+  ignore_errors: yes
+  when: test_list is defined
+
+- name: Run tests with default test list
+  shell: |
+    set -ex
+    export PATH=$PATH:/usr/local/sbin:/usr/sbin
+    source .venv/bin/activate
+    printenv
+    refstack-client test \
+      -c {{ path_to_tempest_config }} \
+      -v \
+      --test-list "https://refstack.openstack.org/api/v1/guidelines/{{ guideline }}/tests?target=platform&type=required&alias=true&flag=false"
+  args:
+    chdir: "{{ source.refstack_client_source }}"
+    executable: /bin/bash
+  register: refstack_result
+  ignore_errors: yes
+  when: test_list is not defined
 
 - name: Find the test result json file
   shell: |
@@ -91,13 +93,13 @@
     ls | grep "\.json" | tail -1
   register: ls_out
   args:
-    chdir: "{{ source.refstack_client_source }}/.tempest/.testrepository"
+    chdir: "{{ source.refstack_client_source }}/.tempest/.stestr"
 
 - name: Upload results anonymously
   shell: |
     set -ex
     source .venv/bin/activate
-    yes | refstack-client upload ".tempest/.testrepository/{{ ls_out.stdout }}"
+    yes | refstack-client upload ".tempest/.stestr/{{ ls_out.stdout }}"
   args:
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
@@ -113,7 +115,7 @@
   shell: |
     set -ex
     source .venv/bin/activate
-    yes | refstack-client upload ".tempest/.testrepository/{{ ls_out.stdout }}" \
+    yes | refstack-client upload ".tempest/.stestr/{{ ls_out.stdout }}" \
       --url {{ server }} \
       -i {{ private_key_path }}
   args:
@@ -124,13 +126,13 @@
 - block:
   - name: Download results file in .json
     fetch:
-      src: "{{ source.refstack_client_source }}/.tempest/.testrepository/{{ ls_out.stdout }}"
+      src: "{{ source.refstack_client_source }}/.tempest/.stestr/{{ ls_out.stdout }}"
       dest: "{{ dest_dir }}/test_results.json"
       flat: yes
 
   - name: Download results file in subunit
     fetch:
-      src: "{{ source.refstack_client_source }}/.tempest/.testrepository/{{ ls_out.stdout | splitext | first }}"
+      src: "{{ source.refstack_client_source }}/.tempest/.stestr/{{ ls_out.stdout | splitext | first }}"
       dest: "{{ dest_dir }}/test_results_subunit"
       flat: yes
 
@@ -142,3 +144,8 @@
     args:
       chdir: "{{ source.refstack_client_source }}"
   when: download_artifacts
+
+- name: Check if we passed refstack tests
+  fail:
+    msg: "Refstack tests failed."
+  when: refstack_result.rc > 0
