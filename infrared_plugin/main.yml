@@ -8,6 +8,11 @@
     - refstack-client-ansible-role
 
   pre_tasks:
+    - name: Set accounts_path
+      set_fact:
+        accounts_path: "{{ test.accounts_path }}"
+      when: test.accounts_path
+
     - name: Set aditional_tempestconf_params
       set_fact:
         aditional_tempestconf_params: "{{ test.aditional_tempestconf_params }}"
@@ -18,15 +23,20 @@
         deployer_input: "{{ test.deployer_input }}"
       when: test.deployer_input
 
-    - name: Set url_cirros_image
+    - name: Set dest_dir
       set_fact:
-        url_cirros_image: "{{ test.url_cirros_image }}"
-      when: test.url_cirros_image
+        dest_dir: "{{ test.dest_dir }}"
+      when: test.dest_dir
 
-    - name: Set source_credentials
+    - name: Set download_artifacts
       set_fact:
-        source_credentials: "{{ test.source_credentials }}"
-      when: test.source_credentials
+        download_artifacts: "{{ test.download_artifacts }}"
+      when: test.download_artifacts
+
+    - name: Set guideline
+      set_fact:
+        guideline: "{{ test.guideline }}"
+      when: test.guideline
 
     - name: Set private_key_path
       set_fact:
@@ -48,15 +58,15 @@
         server: "{{ test.server }}"
       when: test.server
 
-    - name: Set tempestconf_source
+    - name: Set source_credentials
       set_fact:
-        tempestconf_source: "{{ test.tempestconf_source }}"
-      when: test.tempestconf_source
+        source_credentials: "{{ test.source_credentials }}"
+      when: test.source_credentials
 
-    - name: Set tempestconf_venv
+    - name: Set source_admin_credentials
       set_fact:
-        tempestconf_venv: "{{ test.tempestconf_venv }}"
-      when: test.tempestconf_venv
+        source_admin_credentials: "{{ test.source_admin_credentials }}"
+      when: test.source_admin_credentials
 
     - name: Set tempest_config_path
       set_fact:
@@ -73,7 +83,7 @@
         upload_results: "{{ test.upload_results }}"
       when: test.upload_results
 
-    - name: Set download_artifacts
+    - name: Set url_cirros_image
       set_fact:
-        download_artifacts: "{{ test.download_artifacts }}"
-      when: test.download_artifacts
+        url_cirros_image: "{{ test.url_cirros_image }}"
+      when: test.url_cirros_image

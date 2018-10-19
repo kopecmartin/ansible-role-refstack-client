@@ -7,6 +7,11 @@ subparsers:
         groups:
             - title: OpenStack Interoperability Tests
               options:
+                accounts_path:
+                    type: Value
+                    help: |
+                      Path to a tempest accounts file.
+                    default: ''
                 aditional_tempestconf_params:
                     type: Value
                     help: |
@@ -17,16 +22,21 @@ subparsers:
                     help: |
                       Path to a deployer-input file.
                     default: ''
-                url_cirros_image:
+                dest_dir:
                     type: Value
                     help: |
-                      Path or link to cirros image.
-                    default: http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
-                source_credentials:
+                      Local directory where the files will be     stored.
+                    default: '{{ lookup('env', 'PWD') }}'
+                download_artifacts:
+                    type: Bool
+                    help: |
+                      Whether artifacts should be downloaded to the host machine or not.
+                    default: True
+                guideline:
                     type: Value
                     help: |
-                      File or command to be sourced: keystonerc_admin/openrc admin admin.
-                    default: ''
+                      Specific guideline.
+                    default: '2018.02'
                 private_key_path:
                     type: Value
                     help: |
@@ -47,16 +57,16 @@ subparsers:
                     help: |
                       Server url where results will be uploaded.
                     default: https://refstack.openstack.org/api
-                tempestconf_source:
+                source_credentials:
                     type: Value
                     help: |
-                      Destination where python-tempestconf will be cloned.
-                    default: ~/python-tempestconf-job
-                tempestconf_venv:
+                      File or command to be sourced: keystonerc_admin/openrc admin admin.
+                    default: ''
+                source_admin_credentials:
                     type: Value
                     help: |
-                      Destination of virtualenv where python-tempestconf will be installed.
-                    default: ~/.python-tempestconf-job_venv
+                      File or command to be sourced: keystonerc_admin/openrc admin admin.
+                    default: ''
                 tempest_config_path:
                     type: Value
                     help: |
@@ -72,8 +82,8 @@ subparsers:
                     help: |
                       Whether results should be uploaded to a server or not.
                     default: True
-                download_artifacts:
-                    type: Bool
+                url_cirros_image:
+                    type: Value
                     help: |
-                      Whether artifacts should be downloaded to the host machine or not.
-                    default: True
+                      Path or link to cirros image.
+                    default: http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
