@@ -51,7 +51,7 @@ subparsers:
                     type: Value
                     help: |
                       Destination where refstack-client will be cloned.
-                    default: ~/refstack-client
+                    default: ~/.refstack-client
                 server:
                     type: Value
                     help: |
