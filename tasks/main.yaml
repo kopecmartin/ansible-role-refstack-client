@@ -53,7 +53,7 @@
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
 
-- name: Run tests with defined test list
+- name: Run tests with the defined test list
   shell: |
     set -ex
     export PATH=$PATH:/usr/local/sbin:/usr/sbin
@@ -70,7 +70,7 @@
   ignore_errors: yes
   when: test_list is defined
 
-- name: Run tests with default test list
+- name: Run tests with the default test list
   shell: |
     set -ex
     export PATH=$PATH:/usr/local/sbin:/usr/sbin
@@ -108,6 +108,7 @@
     yes | refstack-client upload ".tempest/.stestr/{{ ls_out.stdout }}" \
       --url {{ server }} \
       -i {{ private_key_path }}
+  register: upload_out
   args:
     chdir: "{{ source.refstack_client_source }}"
     executable: /bin/bash
@@ -133,6 +134,14 @@
       flat: yes
     args:
       chdir: "{{ source.refstack_client_source }}"
+
+  - debug:
+      msg: "{{ upload_out.stdout }}"
+
+  - name: Dump output of upload command
+    copy:
+      content: "{{ upload_out.stdout }}"
+      dest: "{{ dest_dir }}/upload_output.txt"
   when: download_artifacts
 
 - name: Check if we passed refstack tests
