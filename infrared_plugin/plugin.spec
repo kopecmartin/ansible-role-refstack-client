@@ -26,7 +26,7 @@ subparsers:
                     type: Value
                     help: |
                       Local directory where the files will be     stored.
-                    default: '{{ lookup('env', 'PWD') }}'
+                    default: "{{ lookup('env', 'PWD') }}"
                 download_artifacts:
                     type: Bool
                     help: |
