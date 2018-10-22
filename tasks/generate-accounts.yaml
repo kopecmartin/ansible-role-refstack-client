@@ -39,7 +39,7 @@
     source {{ source_admin_credentials }}
     printenv
     tempest account-generator \
-      --config-file ./etc/tempest_admin.conf \
+      --config-file ./etc/tempest.conf \
       --concurrency 3 \
       ./etc/accounts.yaml
   args:
