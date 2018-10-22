@@ -142,6 +142,7 @@
     copy:
       content: "{{ upload_out.stdout }}"
       dest: "{{ dest_dir }}/upload_output.txt"
+    delegate_to: localhost
   when: download_artifacts
 
 - name: Check if we passed refstack tests
