@@ -157,7 +157,7 @@
   - name: Download accounts.yaml file
     fetch:
       src: "{{ path_to_accounts_file }}"
-      dest: "{{ dest_dir }}/accounts.conf"
+      dest: "{{ dest_dir }}/accounts.yaml"
       flat: yes
     args:
       chdir: "{{ source.refstack_client_source }}"
