@@ -11,10 +11,10 @@
         accounts_path: "{{ test.accounts_path }}"
       when: test.accounts_path
 
-    - name: Set aditional_tempestconf_params
+    - name: Set additional_tempestconf_params
       set_fact:
-        aditional_tempestconf_params: "{{ test.aditional_tempestconf_params }}"
-      when: test.aditional_tempestconf_params
+        additional_tempestconf_params: "{{ test.additional_tempestconf_params }}"
+      when: test.additional_tempestconf_params
 
     - name: Set deployer_input
       set_fact:

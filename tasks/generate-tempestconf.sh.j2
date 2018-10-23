@@ -8,14 +8,14 @@ discover-tempest-config \
 --debug \
 -v \
 --non-admin \
---test-accounts ./etc/accounts.yaml \
+--test-accounts {{ path_to_accounts_file }} \
 {% if deployer_input is defined %}
 --deployer-input {{ deployer_input }} \
 {% endif %}
 validation.run_validation true \
 compute.allow_tenant_isolation true \
 compute-feature-enabled.resize true \
-{% if aditional_tempestconf_params is defined %}
-{{ aditional_tempestconf_params }} \
+{% if additional_tempestconf_params is defined %}
+{{ additional_tempestconf_params }} \
 {% endif %}
 image.http_image {{ url_cirros_image }}

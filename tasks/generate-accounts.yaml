@@ -12,7 +12,7 @@
   args:
     executable: /bin/bash
     chdir: "{{ source.refstack_client_source }}"
-  when: aditional_tempestconf_params is not defined
+  when: additional_tempestconf_params is not defined
 
 - name: Generate tempest.conf as admin additional params
   shell: |
@@ -24,12 +24,12 @@
        -v \
        --create \
        --out ./etc/tempest.conf \
-       {{ aditional_tempestconf_params }} \
+       {{ additional_tempestconf_params }} \
        image.http_image {{ url_cirros_image }}
   args:
     executable: /bin/bash
     chdir: "{{ source.refstack_client_source }}"
-  when: aditional_tempestconf_params is defined
+  when: additional_tempestconf_params is defined
 
 - name: Generate tempest accounts.yaml file
   shell: |

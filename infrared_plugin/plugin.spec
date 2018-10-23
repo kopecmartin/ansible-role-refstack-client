@@ -12,7 +12,7 @@ subparsers:
                     help: |
                       Path to a tempest accounts file.
                     default: ''
-                aditional_tempestconf_params:
+                additional_tempestconf_params:
                     type: Value
                     help: |
                       Additional parameters to be passed to discover-tempest-config tool.

@@ -19,18 +19,20 @@ deployment is working by passing refstack tests.
 | Variable name                | Required | Default                                                             | Type   | Description                                                                      |
 |------------------------------|----------|---------------------------------------------------------------------|--------|---------------------------------------------------------------------------------------------------------|
 | accounts_path                | False    | None                                                                | String | Path to a tempest accounts file.                                                                        |
-| aditional_tempestconf_params | False    | None                                                                | String | Aditional arguments to passed to discover-tempest-config tool.                                          |
+| additional_tempestconf_params| False    | None                                                                | String | Additional arguments to passed to discover-tempest-config tool.                                         |
 | deployer_input               | False    | None                                                                | String | Pat to a deployer input file.                                                                           |
-| dest_dir                     | False    | pwd                                                                 | String | Local directory where the files will be stored.                                                         |
+| dest_dir *                   | False    | pwd                                                                 | String | Local directory where the files will be stored.                                                         |
 | download_artifacts           | False    | True                                                                | Bool   | Whether artifacts should be downloaded to the host or not.                                              |
 | guideline                    | False    | 2018.02                                                             | String | Specific guideline                                                                                      |
-| private_key_path_src         | False    | None                                                                | String | If defined, the key defined by the param is copied to the targeted machine to private_key_path location.|
+| private_key_path_src *       | False    | None                                                                | String | If defined, the key defined by the param is copied to the targeted machine to private_key_path location.|
 | refstack_client_source       | False    | ~/.refstack-client                                                  | String | Destination where refstack-client will be cloned.                                                       |
 | server                       | False    | https://refstack.openstack.org/api                                  | String | Server url where results will be uploaded.                                                              |
 | tempest_config_path          | False    | None                                                                | String | Destination of tempest configuration file to be used for running refstack tests.                        |
 | test_list                    | False    | None                                                                | String | A path or an URL to a test list text file containing specific test cases.                               |
 | upload_results               | False    | True                                                                | Bool   | Whether results should be uploaded to a server or not.                                                  |
 | url_cirros_image             | False    | http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img | String | Path or link to cirros image.                                                                           |
+
+**\* it's a local path, the path on a machine, the playbook is executed from**
 
 ## Example
 To run the role from the repository:
@@ -75,3 +77,16 @@ Run the following steps to run the plugin:
     ```
     (infrared)$ ir refstack-client-ansible-role
     ```
+
+### Example
+```
+(infrared)$ ir refstack-client-ansible-role \
+                 --source_credentials /home/stack/overcloudrc \
+                 --source_admin_credentials /home/stack/overcloudrc \
+                 --deployer_input /home/stack/ir-tempest-deployer-input.conf \
+                 --private_key_path /home/stack/refstack_key \
+                 --private_key_path_src $(pwd)/refstack_key
+```
+
+In the example above `tempest_config_path` is not defined, so `source_admin_credentials` are a required parameter
+because the role will try to generate an `accounts.yaml` before generating a `tempest.conf`.

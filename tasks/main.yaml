@@ -16,11 +16,21 @@
   include: generate-accounts.yaml
   when: accounts_path is not defined
 
+- name: Set path to newly generated accounts.yaml
+  set_fact:
+    path_to_accounts_file: "{{ source.refstack_client_source }}/etc/accounts.yaml"
+  when: accounts_path is not defined
+
+- name: Set path to provided accounts.yaml
+  set_fact:
+    path_to_accounts_file: "{{ accounts_path }}"
+  when: accounts_path is defined
+
 - name: Generate tempest configuration script
   template:
-      src: generate-tempestconf.sh.j2
-      dest: "{{ source.refstack_client_source }}/generate-tempestconf.sh"
-      mode: 0744
+    src: generate-tempestconf.sh.j2
+    dest: "{{ source.refstack_client_source }}/generate-tempestconf.sh"
+    mode: 0744
   when: tempest_config_path is not defined
 
 - name: Generate tempest configuration file
@@ -127,14 +137,6 @@
       dest: "{{ dest_dir }}/test_results_subunit"
       flat: yes
 
-  - name: Download tempest.conf file
-    fetch:
-      src: "{{ path_to_tempest_config }}"
-      dest: "{{ dest_dir }}/tempest.conf"
-      flat: yes
-    args:
-      chdir: "{{ source.refstack_client_source }}"
-
   - debug:
       msg: "{{ upload_out.stdout }}"
 
@@ -143,6 +145,22 @@
       content: "{{ upload_out.stdout }}"
       dest: "{{ dest_dir }}/upload_output.txt"
     delegate_to: localhost
+
+  - name: Download tempest.conf file
+    fetch:
+      src: "{{ path_to_tempest_config }}"
+      dest: "{{ dest_dir }}/tempest.conf"
+      flat: yes
+    args:
+      chdir: "{{ source.refstack_client_source }}"
+
+  - name: Download accounts.yaml file
+    fetch:
+      src: "{{ path_to_accounts_file }}"
+      dest: "{{ dest_dir }}/accounts.conf"
+      flat: yes
+    args:
+      chdir: "{{ source.refstack_client_source }}"
   when: download_artifacts
 
 - name: Check if we passed refstack tests
