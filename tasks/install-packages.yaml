@@ -18,6 +18,7 @@
       get_url: url=https://bootstrap.pypa.io/get-pip.py  dest=/tmp
 
     - name: install pip
+      become: yes
       command: "python /tmp/get-pip.py"
 
     - name: delete get-pip.py
