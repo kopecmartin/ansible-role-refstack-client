@@ -10,8 +10,8 @@ deployment is working by passing refstack tests.
 ## Required Role Variables
 | Variable name                | Required | Default                                                             | Type   | Description                                                                      |
 |------------------------------|----------|---------------------------------------------------------------------|--------|---------------------------------------------------------------------------------------------------------|
-| private_key_path             | True     | None                                                                | String | Results are uploaded to the corresponding account.                                                      |
-| source_admin_credentials     | only if accounts_path not defined | None                                            | String | File or command to be sourced for admin credentials.                                                    |
+| private_key_path             | True if upload_results is True    | None                                       | String | Results are uploaded to the corresponding account.                                                      |
+| source_admin_credentials     | only if accounts_path not defined | None                                       | String | File or command to be sourced for admin credentials.                                                    |
 | source_credentials           | True     | None                                                                | String | File or command to be sourced: keystonerc_admin/openrc admin admin.                                     |
 
 ## Optional Role Variables
