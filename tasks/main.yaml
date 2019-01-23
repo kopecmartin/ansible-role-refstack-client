@@ -11,6 +11,13 @@
   command: ./setup_env
   args:
     chdir: "{{ source.refstack_client_source }}"
+  when: tempest_tag is not defined
+
+- name: Install refstack-client and clone Tempest from specific tag
+  command: ./setup_env -t {{ tempest_tag }}
+  args:
+    chdir: "{{ source.refstack_client_source }}"
+  when: tempest_tag is defined
 
 - name: Generate accounts.yaml file
   include: generate-accounts.yaml

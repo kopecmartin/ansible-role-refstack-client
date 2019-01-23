@@ -71,6 +71,11 @@
         tempest_config_path: "{{ test.tempest_config_path }}"
       when: test.tempest_config_path
 
+    - name: Set tempest_tag
+      set_fact:
+        tempest_tag: "{{ test.tempest_tag }}"
+      when: test.tempest_tag
+
     - name: Set test_list
       set_fact:
         test_list: "{{ test.test_list }}"

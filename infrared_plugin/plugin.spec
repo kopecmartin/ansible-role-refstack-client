@@ -72,6 +72,11 @@ subparsers:
                     help: |
                       Destination of tempest configuration file to be used for running refstack tests.
                     default: ''
+                tempest_tag:
+                    type: Value
+                    help: |
+                      Tempest will be cloned and checkouted to this specific tag.
+                    default: ''
                 test_list:
                     type: Value
                     help: |
