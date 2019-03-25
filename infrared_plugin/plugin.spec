@@ -36,7 +36,7 @@ subparsers:
                     type: Value
                     help: |
                       Specific guideline.
-                    default: '2018.02'
+                    default: '2018.11'
                 private_key_path:
                     type: Value
                     help: |
