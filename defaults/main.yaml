@@ -3,7 +3,7 @@ source:
     refstack_client_source: "~/.refstack-client"
 upload_results: True
 download_artifacts: True
-url_cirros_image: "http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img"
+url_cirros_image: "http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img"
 
 # Local directory where the files will be stored
 dest_dir: "{{ lookup('env', 'PWD') }}"
