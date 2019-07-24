@@ -36,7 +36,7 @@ subparsers:
                     type: Value
                     help: |
                       Specific guideline.
-                    default: '2018.11'
+                    default: '2019.06'
                 private_key_path:
                     type: Value
                     help: |
@@ -91,4 +91,4 @@ subparsers:
                     type: Value
                     help: |
                       Path or link to cirros image.
-                    default: http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
+                    default: http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img

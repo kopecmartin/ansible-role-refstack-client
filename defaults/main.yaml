@@ -8,4 +8,4 @@ url_cirros_image: "http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-di
 # Local directory where the files will be stored
 dest_dir: "{{ lookup('env', 'PWD') }}"
 # the latest guideline by default
-guideline: "2018.11"
+guideline: "2019.06"

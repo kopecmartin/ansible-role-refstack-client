@@ -23,7 +23,7 @@ deployment is working by passing refstack tests.
 | deployer_input               | False    | None                                                                | String | Pat to a deployer input file.                                                                           |
 | dest_dir *                   | False    | pwd                                                                 | String | Local directory where the files will be stored.                                                         |
 | download_artifacts           | False    | True                                                                | Bool   | Whether artifacts should be downloaded to the host or not.                                              |
-| guideline                    | False    | 2018.11                                                             | String | Specific guideline                                                                                      |
+| guideline                    | False    | 2019.06                                                             | String | Specific guideline                                                                                      |
 | private_key_path_src *       | False    | None                                                                | String | If defined, the key defined by the param is copied to the targeted machine to private_key_path location.|
 | refstack_client_source       | False    | ~/.refstack-client                                                  | String | Destination where refstack-client will be cloned.                                                       |
 | server                       | False    | https://refstack.openstack.org/api                                  | String | Server url where results will be uploaded.                                                              |
@@ -31,7 +31,7 @@ deployment is working by passing refstack tests.
 | tempest_tag                  | False    | refstack-client's default                                           | String | Tempest will be cloned and checkouted to this specific tag.                                             |
 | test_list                    | False    | None                                                                | String | A path or an URL to a test list text file containing specific test cases.                               |
 | upload_results               | False    | True                                                                | Bool   | Whether results should be uploaded to a server or not.                                                  |
-| url_cirros_image             | False    | http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img | String | Path or link to cirros image.                                                                           |
+| url_cirros_image             | False    | http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img | String | Path or link to cirros image.                                                                           |
 
 **\* it's a local path, the path on a machine, the playbook is executed from**
 
