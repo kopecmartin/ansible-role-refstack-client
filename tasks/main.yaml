@@ -7,14 +7,24 @@
     repo: 'https://github.com/openstack/refstack-client.git'
     dest: "{{ source.refstack_client_source }}"
 
+- name: Look for python3
+  command: "python3 --version"
+  ignore_errors: yes
+  register: python3_is_available
+  changed_when: false
+
+- set_fact:
+    python3_param: "-p 3"
+  when: python3_is_available.rc == 0
+
 - name: Install refstack-client
-  command: ./setup_env
+  command: ./setup_env {{ python3_param | default('') }}
   args:
     chdir: "{{ source.refstack_client_source }}"
   when: tempest_tag is not defined
 
 - name: Install refstack-client and clone Tempest from specific tag
-  command: ./setup_env -t {{ tempest_tag }}
+  command: ./setup_env -t {{ tempest_tag }} {{ python3_param | default('') }}
   args:
     chdir: "{{ source.refstack_client_source }}"
   when: tempest_tag is defined

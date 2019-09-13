@@ -1,11 +1,26 @@
 ---
+- name: Is python available
+  command: "python --version"
+  ignore_errors: true
+  register: python_is_available
+  changed_when: false
+
 - name: Install git
   become: yes
   package:
-    name: "{{ item }}"
-  with_items:
-    - git
-    - python-virtualenv
+    name: git
+
+- name: Install virtualenv
+  become: yes
+  package:
+    name: python-virtualenv
+  when: python_is_available.rc == 0
+
+- name: Install virtualenv
+  become: yes
+  package:
+    name: python3-virtualenv
+  when: python_is_available.rc != 0
 
 - name: Check if pip is already installed
   command: "pip --version"
@@ -13,15 +28,22 @@
   register: pip_is_installed
   changed_when: false
 
+- name: Check if pip3 is already installed
+  command: "pip3 --version"
+  ignore_errors: true
+  register: pip3_is_installed
+  changed_when: false
+
 - block:
-    - name: download get-pip.py
-      get_url: url=https://bootstrap.pypa.io/get-pip.py  dest=/tmp
+  - name: download get-pip.py
+    get_url: url=https://bootstrap.pypa.io/get-pip.py  dest=/tmp
 
-    - name: install pip
-      become: yes
-      command: "python /tmp/get-pip.py"
+  - name: install pip
+    become: yes
+    command: "python /tmp/get-pip.py"
 
-    - name: delete get-pip.py
-      file: state=absent path=/tmp/get-pip.py
+  - name: delete get-pip.py
+    file: state=absent path=/tmp/get-pip.py
 
-  when: pip_is_installed.rc != 0
+  when: pip_is_installed.rc != 0 and pip3_is_installed.rc != 0
+
