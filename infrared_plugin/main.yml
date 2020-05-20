@@ -2,91 +2,14 @@
 # This file and plugin.spec are required by Infrared project
 
 - hosts: tester
-  roles:
-    - refstack-client-ansible-role
+  tasks:
 
-  pre_tasks:
-    - name: Set accounts_path
+    - name: Remap infrared parameters to role variables
       set_fact:
-        accounts_path: "{{ test.accounts_path }}"
-      when: test.accounts_path
+        "{{ item.key }}": "{{ item.value }}"
+      with_dict: "{{ test }}"
 
-    - name: Set additional_tempestconf_params
-      set_fact:
-        additional_tempestconf_params: "{{ test.additional_tempestconf_params }}"
-      when: test.additional_tempestconf_params
+    - name: refstack-client-ansible-role
+      include_role:
+        name: refstack-client-ansible-role
 
-    - name: Set deployer_input
-      set_fact:
-        deployer_input: "{{ test.deployer_input }}"
-      when: test.deployer_input
-
-    - name: Set dest_dir
-      set_fact:
-        dest_dir: "{{ test.dest_dir }}"
-      when: test.dest_dir
-
-    - name: Set download_artifacts
-      set_fact:
-        download_artifacts: "{{ test.download_artifacts }}"
-      when: test.download_artifacts
-
-    - name: Set guideline
-      set_fact:
-        guideline: "{{ test.guideline }}"
-      when: test.guideline
-
-    - name: Set private_key_path
-      set_fact:
-        private_key_path: "{{ test.private_key_path }}"
-      when: test.private_key_path
-
-    - name: Set private_key_path_src
-      set_fact:
-        private_key_path_src: "{{ test.private_key_path_src }}"
-      when: test.private_key_path_src
-
-    - name: Set refstack_client_source
-      set_fact:
-        refstack_client_source: "{{ test.refstack_client_source }}"
-      when: test.refstack_client_source
-
-    - name: Set server
-      set_fact:
-        server: "{{ test.server }}"
-      when: test.server
-
-    - name: Set source_credentials
-      set_fact:
-        source_credentials: "{{ test.source_credentials }}"
-      when: test.source_credentials
-
-    - name: Set source_admin_credentials
-      set_fact:
-        source_admin_credentials: "{{ test.source_admin_credentials }}"
-      when: test.source_admin_credentials
-
-    - name: Set tempest_config_path
-      set_fact:
-        tempest_config_path: "{{ test.tempest_config_path }}"
-      when: test.tempest_config_path
-
-    - name: Set tempest_tag
-      set_fact:
-        tempest_tag: "{{ test.tempest_tag }}"
-      when: test.tempest_tag
-
-    - name: Set test_list
-      set_fact:
-        test_list: "{{ test.test_list }}"
-      when: test.test_list
-
-    - name: Set upload_results
-      set_fact:
-        upload_results: "{{ test.upload_results }}"
-      when: test.upload_results
-
-    - name: Set url_cirros_image
-      set_fact:
-        url_cirros_image: "{{ test.url_cirros_image }}"
-      when: test.url_cirros_image

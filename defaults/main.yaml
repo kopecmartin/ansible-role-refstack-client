@@ -1,6 +1,5 @@
 server: "https://refstack.openstack.org/api"
-source:
-    refstack_client_source: "~/.refstack-client"
+refstack_client_source: "~/.refstack-client"
 upload_results: True
 download_artifacts: True
 url_cirros_image: "http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img"

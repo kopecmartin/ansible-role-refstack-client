@@ -5,7 +5,7 @@
 - name: Clone refstack-client
   git:
     repo: 'https://github.com/openstack/refstack-client.git'
-    dest: "{{ source.refstack_client_source }}"
+    dest: "{{ refstack_client_source }}"
 
 - name: Look for python3
   command: "python3 --version"
@@ -20,13 +20,13 @@
 - name: Install refstack-client
   command: ./setup_env {{ python3_param | default('') }}
   args:
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
   when: tempest_tag is not defined
 
 - name: Install refstack-client and clone Tempest from specific tag
   command: ./setup_env -t {{ tempest_tag }} {{ python3_param | default('') }}
   args:
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
   when: tempest_tag is defined
 
 - name: Generate accounts.yaml file
@@ -35,7 +35,7 @@
 
 - name: Set path to newly generated accounts.yaml
   set_fact:
-    path_to_accounts_file: "{{ source.refstack_client_source }}/etc/accounts.yaml"
+    path_to_accounts_file: "{{ refstack_client_source }}/etc/accounts.yaml"
   when: accounts_path is not defined
 
 - name: Set path to provided accounts.yaml
@@ -46,7 +46,7 @@
 - name: Generate tempest configuration script
   template:
     src: generate-tempestconf.sh.j2
-    dest: "{{ source.refstack_client_source }}/generate-tempestconf.sh"
+    dest: "{{ refstack_client_source }}/generate-tempestconf.sh"
     mode: 0744
   when: tempest_config_path is not defined
 
@@ -54,13 +54,13 @@
   shell: |
     ./generate-tempestconf.sh
   args:
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
   when: tempest_config_path is not defined
 
 - name: Set path to newly generated tempest.conf
   set_fact:
-    path_to_tempest_config: "{{ source.refstack_client_source }}/etc/tempest.conf"
+    path_to_tempest_config: "{{ refstack_client_source }}/etc/tempest.conf"
   when: tempest_config_path is not defined
 
 - name: Set path to provided tempest.conf
@@ -77,7 +77,7 @@
       -- \
       --regex tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
   args:
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
 
 - name: Run tests with the defined test list
@@ -91,7 +91,7 @@
       -v \
       --test-list {{ test_list }}
   args:
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
   register: refstack_result
   ignore_errors: yes
@@ -108,7 +108,7 @@
       -v \
       --test-list "https://refstack.openstack.org/api/v1/guidelines/{{ guideline }}/tests?target=platform&type=required&alias=true&flag=false"
   args:
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
   register: refstack_result
   ignore_errors: yes
@@ -120,7 +120,7 @@
     ls | grep "\.json" | tail -1
   register: ls_out
   args:
-    chdir: "{{ source.refstack_client_source }}/.tempest/.stestr"
+    chdir: "{{ refstack_client_source }}/.tempest/.stestr"
 
 - name: Copy private key
   copy:
@@ -137,20 +137,20 @@
       -i {{ private_key_path }}
   register: upload_out
   args:
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
   when: upload_results and private_key_path is defined
 
 - block:
   - name: Download results file in .json
     fetch:
-      src: "{{ source.refstack_client_source }}/.tempest/.stestr/{{ ls_out.stdout }}"
+      src: "{{ refstack_client_source }}/.tempest/.stestr/{{ ls_out.stdout }}"
       dest: "{{ dest_dir }}/test_results.json"
       flat: yes
 
   - name: Download results file in subunit
     fetch:
-      src: "{{ source.refstack_client_source }}/.tempest/.stestr/{{ ls_out.stdout | splitext | first }}"
+      src: "{{ refstack_client_source }}/.tempest/.stestr/{{ ls_out.stdout | splitext | first }}"
       dest: "{{ dest_dir }}/test_results_subunit"
       flat: yes
 
@@ -169,7 +169,7 @@
       dest: "{{ dest_dir }}/tempest.conf"
       flat: yes
     args:
-      chdir: "{{ source.refstack_client_source }}"
+      chdir: "{{ refstack_client_source }}"
 
   - name: Download accounts.yaml file
     fetch:
@@ -177,7 +177,7 @@
       dest: "{{ dest_dir }}/accounts.yaml"
       flat: yes
     args:
-      chdir: "{{ source.refstack_client_source }}"
+      chdir: "{{ refstack_client_source }}"
   when: download_artifacts
 
 - name: Check if we passed refstack tests

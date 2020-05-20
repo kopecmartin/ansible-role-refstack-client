@@ -11,7 +11,7 @@
        --out ./etc/tempest.conf
   args:
     executable: /bin/bash
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
   when: additional_tempestconf_params is not defined
 
 - name: Generate tempest.conf as admin additional params
@@ -28,7 +28,7 @@
        image.http_image {{ url_cirros_image }}
   args:
     executable: /bin/bash
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
   when: additional_tempestconf_params is defined
 
 - name: Generate tempest accounts.yaml file
@@ -44,11 +44,11 @@
       ./etc/accounts.yaml
   args:
     executable: /bin/bash
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"
 
 - name: Cat generated accounts.yaml file
   shell: |
     cat ./etc/accounts.yaml
   args:
     executable: /bin/bash
-    chdir: "{{ source.refstack_client_source }}"
+    chdir: "{{ refstack_client_source }}"

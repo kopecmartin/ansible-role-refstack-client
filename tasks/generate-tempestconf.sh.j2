@@ -1,7 +1,7 @@
 # Script to generate tempest.conf
 set -ex
 export PATH=$PATH:/usr/local/sbin:/usr/sbin
-source {{ source.refstack_client_source }}/.venv/bin/activate
+source {{ refstack_client_source }}/.venv/bin/activate
 source {{ source_credentials }}
 printenv
 discover-tempest-config \
