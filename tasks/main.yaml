@@ -13,7 +13,8 @@
   register: python3_is_available
   changed_when: false
 
-- set_fact:
+- name: Set python3 params for setup_env
+  set_fact:
     python3_param: "-p 3"
   when: python3_is_available.rc == 0
 
@@ -121,12 +122,16 @@
   register: ls_out
   args:
     chdir: "{{ refstack_client_source }}/.tempest/.stestr"
+    executable: /bin/bash
 
 - name: Copy private key
   copy:
     src: "{{ private_key_path_src }}"
     dest: "{{ private_key_path }}"
-  when: upload_results and private_key_path is defined and private_key_path_src is defined
+  when:
+    - upload_results | bool
+    - private_key_path is defined
+    - private_key_path_src is defined
 
 - name: Upload results with signature
   shell: |
@@ -139,7 +144,9 @@
   args:
     chdir: "{{ refstack_client_source }}"
     executable: /bin/bash
-  when: upload_results and private_key_path is defined
+  when:
+    - upload_results | bool
+    - private_key_path is defined
 
 - block:
   - name: Download results file in .json
@@ -178,7 +185,7 @@
       flat: yes
     args:
       chdir: "{{ refstack_client_source }}"
-  when: download_artifacts
+  when: download_artifacts | bool
 
 - name: Check if we passed refstack tests
   fail:
