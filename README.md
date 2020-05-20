@@ -70,10 +70,6 @@ Run the following steps to run the plugin:
     ```
     (infrared)$ ir plugin list
     ```
-3. From infrared directory symlink roles path:
-    ```
-    $ ln -s $(pwd)/plugins $(pwd)/plugins/refstack-client-ansible-role/infrared_plugin/roles
-    ```
 4. Run the plugin:
     ```
     (infrared)$ ir refstack-client-ansible-role

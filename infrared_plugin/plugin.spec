@@ -1,5 +1,9 @@
 ---
-plugin_type: test
+# This file and main.yml are required by Infrared project
+config:
+    plugin_type: test
+    entry_point: main.yml
+    roles_path: ../
 subparsers:
     refstack-client-ansible-role:
         description: OpenStack interoperability tests
