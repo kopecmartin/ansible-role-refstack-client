@@ -5,7 +5,7 @@ config:
   entry_point: main.yml
   roles_path: ../
 subparsers:
-  refstack-client-ansible-role:
+  ansible-role-refstack-client:
     description: OpenStack interoperability tests
     include_groups: ["Ansible options", "Inventory", "Common options", "Answers file"]
     groups:

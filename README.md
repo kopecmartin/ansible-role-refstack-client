@@ -1,4 +1,4 @@
-# refstack-client-infrared-plugin
+# ansible-role-refstack-client
 
 ## About
 It's an ansible playbook for running [refstack-client](https://github.com/openstack/refstack-client).
@@ -38,9 +38,9 @@ deployment is working by passing refstack tests.
 ## Example
 To run the role from the repository:
 ```
-$ git clone https://github.com/kopecmartin/refstack-client-ansible-role.git
-$ cd refstack-client-ansible-role
-$ mkdir roles && ln -s $(pwd) roles/refstack-client-ansible-role
+$ git clone https://github.com/kopecmartin/ansible-role-refstack-client.git
+$ cd ansible-role-refstack-client
+$ mkdir roles && ln -s $(pwd) roles/ansible-role-refstack-client
 ```
 Then create a `playbook.yaml`:
 ```
@@ -51,7 +51,7 @@ Then create a `playbook.yaml`:
     source_admin_credentials: ~/overcloudrc_admin
     private_key_path: ~/.ssh/id_rsa
   roles:
-    - refstack-client-ansible-role
+    - ansible-role-refstack-client
 ```
 And run it:
 ```
@@ -62,9 +62,9 @@ $ ansible-playbook playbook.yaml
 ## Usage with Infrared
 
 Run the following steps to run the plugin:
-1. Install infrared and add refstack-client-ansible-role plugin by providing the url to this repo:
+1. Install infrared and add ansible-role-refstack-client plugin by providing the url to this repo:
     ```
-    (infrared)$ ir plugin add https://github.com/kopecmartin/refstack-client-ansible-role.git --src-path infrared_plugin
+    (infrared)$ ir plugin add https://github.com/kopecmartin/ansible-role-refstack-client.git --src-path infrared_plugin
     ```
 2. You can verify that the plugin is imported by:
     ```
@@ -72,12 +72,12 @@ Run the following steps to run the plugin:
     ```
 4. Run the plugin:
     ```
-    (infrared)$ ir refstack-client-ansible-role
+    (infrared)$ ir ansible-role-refstack-client
     ```
 
 ### Example
 ```
-(infrared)$ ir refstack-client-ansible-role \
+(infrared)$ ir ansible-role-refstack-client \
                  --source_credentials /home/stack/overcloudrc \
                  --source_admin_credentials /home/stack/overcloudrc \
                  --deployer_input /home/stack/ir-tempest-deployer-input.conf \

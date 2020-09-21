@@ -9,7 +9,7 @@
         "{{ item.key }}": "{{ item.value }}"
       with_dict: "{{ test }}"
 
-    - name: refstack-client-ansible-role
+    - name: ansible-role-refstack-client
       include_role:
-        name: refstack-client-ansible-role
+        name: ansible-role-refstack-client
 
