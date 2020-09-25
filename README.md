@@ -1,7 +1,7 @@
 # ansible-role-refstack-client
 
 ## About
-It's an ansible playbook for running [refstack-client](https://github.com/openstack/refstack-client).
+It's an ansible playbook for running [refstack-client](https://opendev.org/osf/refstack-client).
 It can be useful in automation where this role can be included in other playbooks.
 The role is importable to [Infrared](https://github.com/redhat-openstack/infrared.git) as an infrared
 plugin, so right after Infrared deploys an environment, this role can be executed to ensure the
