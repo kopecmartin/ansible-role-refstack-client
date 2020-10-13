@@ -1,5 +1,7 @@
 # ansible-role-refstack-client
 
+The project has been moved upstream to https://opendev.org/x/ansible-role-refstack-client
+
 ## About
 It's an ansible playbook for running [refstack-client](https://opendev.org/osf/refstack-client).
 It can be useful in automation where this role can be included in other playbooks.
